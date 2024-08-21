@@ -28,7 +28,7 @@ namespace ProyectoIt2
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Login}/{action=Index}");
 
             app.Run();
         }
