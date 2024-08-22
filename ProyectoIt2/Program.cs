@@ -9,6 +9,11 @@ namespace ProyectoIt2
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            builder.Services.AddHttpClient("UseApi", config =>
+            {
+                config.BaseAddress = new Uri(builder.Configuration["Url:Api"]);
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
