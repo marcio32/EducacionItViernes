@@ -1,3 +1,4 @@
+using Data;
 
 namespace API
 {
@@ -6,7 +7,7 @@ namespace API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            ApplicationDbContext.ConnectionString = builder.Configuration.GetConnectionString("ApplicationDbContext");
             // Add services to the container.
 
             builder.Services.AddControllers();
