@@ -1,4 +1,5 @@
 using Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ProyectoIt2
 {
@@ -16,6 +17,21 @@ namespace ProyectoIt2
                 config.BaseAddress = new Uri(builder.Configuration["Url:Api"]);
             });
 
+            builder.Services.AddAuthentication(option =>
+            {
+                option.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                option.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, config =>
+            {
+                config.Events.OnRedirectToLogin = context =>
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    context.Response.Redirect("https://localhost:44313");
+                    return Task.CompletedTask;
+                };
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -31,6 +47,7 @@ namespace ProyectoIt2
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

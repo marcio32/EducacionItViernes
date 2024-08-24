@@ -1,4 +1,6 @@
 ﻿using Data.Dtos;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoIt2.Services;
 
@@ -20,12 +22,24 @@ namespace Web.Controllers
         {
             var resultadoUsuario = await _loginService.ObtenerUsuario(loginDto);
 
-            if(resultadoUsuario != null)
+            if (resultadoUsuario != null)
             {
+                var principalClaim = await _loginService.ClaimLogin(resultadoUsuario);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principalClaim, new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTime.Now.AddMinutes(30)
+                });
+
                 return View("~/Views/Home/Index.cshtml");
             }
-         
+
             return RedirectToAction("Index", "Login");
-                           }
+        }
+
+        public async Task<ActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
