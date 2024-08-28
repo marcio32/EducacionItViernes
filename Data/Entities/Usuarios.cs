@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data.Dtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,5 +18,19 @@ namespace Data.Entities
         public int Id_Rol { get; set; }
         public int? Codigo { get; set; }
         public bool Activo { get; set; }
+
+        public static implicit operator Usuarios(CrearCuentaDto crearCuentaDto)
+        {
+            var usuario = new Usuarios();
+            usuario.Id = crearCuentaDto.Id;
+            usuario.Nombre = crearCuentaDto.Nombre;
+            usuario.Apellido = crearCuentaDto.Apellido;
+            usuario.Fecha_Nacimiento = crearCuentaDto.Fecha_Nacimiento;    
+            usuario.Mail = crearCuentaDto.Mail;
+            usuario.Clave = crearCuentaDto.Clave;
+            usuario.Id_Rol = crearCuentaDto.Id_Rol;
+            usuario.Activo = crearCuentaDto.Activo;
+            return usuario;
+        }
     }
 }

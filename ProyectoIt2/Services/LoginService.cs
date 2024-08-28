@@ -20,6 +20,14 @@ namespace ProyectoIt2.Services
             return resultadoUsuario;
         }
 
+        public async Task<OkObjectResult> GuardarUsuario(CrearCuentaDto crearUsuarioDto)
+        {
+            var response = await _baseApi.PostToApi("Usuarios/CrearUsuario", crearUsuarioDto);
+            var responseLogin = response as OkObjectResult;
+
+            return responseLogin;
+        }
+
         public async Task<ClaimsPrincipal> ClaimLogin(OkObjectResult resultadoUsuario)
         {
 

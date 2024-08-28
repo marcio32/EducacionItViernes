@@ -1,0 +1,59 @@
+﻿@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Proyecto IT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link href="~/css/Login/Login.css" rel="stylesheet" />
+
+</head>
+<body class="img js-fullheight" style="background-image: url(/images/bg.jpg);">
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 text-center mb-5">
+                    <h2 class="heading-section">Proyecto IT</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="login-wrap p-0">
+                        <h3 class="mb-4 text-center">Crear Cuenta</h3>
+                        <form action="CrearUsuario" class="signin-form" method="post">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Ingrese el nombre" name="Nombre" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Ingrese el apellido" name="Apellido" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="date" class="form-control" name="Fecha_Nacimiento" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Ingrese la contraseña" name="Clave" required />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Ingrese el mail" name="Mail" required />
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary submit px-3">Crear Usuario</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://kit.fontawesome.com/f8fcaa487b.js" crossorigin="anonymous"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap//dist/js/bootstrap.js"></script>
+    <script src="~/lib/popper/dist/popper.js"></script>
+    <script src="~/js/Login/Login.js"></script>
+</body>
+</html>

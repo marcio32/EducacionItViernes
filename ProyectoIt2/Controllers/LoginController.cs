@@ -18,6 +18,11 @@ namespace Web.Controllers
             return View();
         }
 
+        public IActionResult CrearCuenta()
+        {
+            return View();
+        }
+
         public async Task<ActionResult> LoginLocal(LoginDto loginDto)
         {
             var resultadoUsuario = await _loginService.ObtenerUsuario(loginDto);
@@ -40,6 +45,22 @@ namespace Web.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Login");
+        }
+   
+        public async Task<ActionResult> CrearUsuario(CrearCuentaDto crearUsuarioDto)
+        {
+            var responseCuenta = await _loginService.GuardarUsuario(crearUsuarioDto);
+
+            if (responseCuenta!= null && Convert.ToBoolean(responseCuenta.Value))
+            {
+                TempData["ErrorLogin"] = "Se creo el usuario correctamente";
+            }
+            else
+            {
+                TempData["ErrorLogin"] = "no se pudo crear el usuario. Contacte a sistemas";
+            }
+
+            return RedirectToAction("index", "Login");
         }
     }
 }
