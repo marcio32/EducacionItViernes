@@ -1,4 +1,5 @@
-﻿using Data.Base;
+﻿using Common.Helpers;
+using Data.Base;
 using Data.Dtos;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace ProyectoIt2.Services
         }
         public async Task<OkObjectResult> ObtenerUsuario(LoginDto loginDto)
         {
+            loginDto.Password = EncryptHelper.Encriptar(loginDto.Password);
             var usuario = await _baseApi.PostToApi("Authenticate/Login", loginDto);
             var resultadoUsuario = usuario as OkObjectResult;
             return resultadoUsuario;
@@ -22,6 +24,7 @@ namespace ProyectoIt2.Services
 
         public async Task<OkObjectResult> GuardarUsuario(CrearCuentaDto crearUsuarioDto)
         {
+            crearUsuarioDto.Clave = EncryptHelper.Encriptar(crearUsuarioDto.Clave);
             var response = await _baseApi.PostToApi("Usuarios/CrearUsuario", crearUsuarioDto);
             var responseLogin = response as OkObjectResult;
 

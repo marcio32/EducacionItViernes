@@ -15,6 +15,10 @@ namespace Web.Controllers
         }
         public IActionResult Index()
         {
+            if (TempData["ErrorLogin"] != null)
+            {
+                ViewBag.ErrorLogin = TempData["ErrorLogin"].ToString();
+            }
             return View();
         }
 
@@ -49,7 +53,7 @@ namespace Web.Controllers
    
         public async Task<ActionResult> CrearUsuario(CrearCuentaDto crearUsuarioDto)
         {
-            var responseCuenta = await _loginService.GuardarUsuario(crearUsuarioDto);
+             var responseCuenta = await _loginService.GuardarUsuario(crearUsuarioDto);
 
             if (responseCuenta!= null && Convert.ToBoolean(responseCuenta.Value))
             {
