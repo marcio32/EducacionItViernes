@@ -16,11 +16,13 @@ namespace ProyectoIt2.Services
         private readonly BaseApi _baseApi;
         private readonly IConfiguration _configuration;
         private readonly SmtpClient _smtpClient;
+        private readonly RecuperarCuentaService _recuperarCuentaService;
         public LoginService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _baseApi = new BaseApi(httpClientFactory);
             _configuration = configuration;
             _smtpClient = new SmtpClient();
+            _recuperarCuentaService = new RecuperarCuentaService();
         }
         public async Task<OkObjectResult> ObtenerUsuario(LoginDto loginDto)
         {
@@ -59,7 +61,6 @@ namespace ProyectoIt2.Services
     
         public async void EnviarMail(LoginDto loginDto)
         {
-            var recuperarCuenta = new RecuperarCuentaService();
             var resultadoCuenta = false;
             var guid = Guid.NewGuid();
             var numeros = new String(guid.ToString().Where(Char.IsDigit).ToArray());
@@ -67,11 +68,11 @@ namespace ProyectoIt2.Services
             var random = new Random(seed);
             var codigo = random.Next(000000,999999);
 
-            var usuario = await recuperarCuenta.BuscarUsuarios(loginDto);
+            var usuario = await _recuperarCuentaService.BuscarUsuarios(loginDto);
             if(usuario != null)
             {
                 usuario.Codigo = codigo;
-                resultadoCuenta = recuperarCuenta.GuardarUsuarios(usuario);
+                resultadoCuenta = _recuperarCuentaService.GuardarUsuarios(usuario);
             }
 
             if (resultadoCuenta)
@@ -100,6 +101,20 @@ namespace ProyectoIt2.Services
             mensaje += $"<strong>{codigo}</strong>";
             return mensaje;
         }
-    
+
+        public async Task<bool> CambiarClave(LoginDto loginDto, string mail)
+        {
+            loginDto.Mail = mail;
+            var resultadoCuenta = false;
+            var usuario = await _recuperarCuentaService.BuscarUsuarios(loginDto);
+            if(usuario != null)
+            {
+                usuario.Clave = EncryptHelper.Encriptar(loginDto.Password);
+                usuario.Codigo = null;
+                resultadoCuenta = _recuperarCuentaService.GuardarUsuarios(usuario);
+            }
+
+            return resultadoCuenta;
+        }
     }
 }

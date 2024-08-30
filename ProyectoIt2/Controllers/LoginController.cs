@@ -81,7 +81,23 @@ namespace Web.Controllers
         public async Task<ActionResult> EnviarMail(LoginDto loginDto)
         {
             _loginService.EnviarMail(loginDto);
+            TempData["Mail"] = loginDto.Mail;
             return RedirectToAction("RecuperarCuenta", "Login");
+        }
+
+        public async Task<ActionResult> CambiarClave(LoginDto loginDto)
+        {
+            var resultadoCuenta = await _loginService.CambiarClave(loginDto, TempData["Mail"].ToString());
+            if (resultadoCuenta)
+            {
+                TempData["ErrorLogin"] = "Se ha cambiado la clave correctamente";
+            }
+            else
+            {
+                TempData["ErrorLogin"] = "El codigo ingresado no coincide con el enviado al mail";
+            }
+
+            return RedirectToAction("Index", "Login");
         }
     
     }
