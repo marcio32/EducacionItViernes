@@ -27,6 +27,17 @@ namespace Web.Controllers
             return View();
         }
 
+        public IActionResult OlvidoClave()
+        {
+            return View();
+        }
+
+        public IActionResult RecuperarCuenta()
+        {
+            return View();
+        }
+
+
         public async Task<ActionResult> LoginLocal(LoginDto loginDto)
         {
             var resultadoUsuario = await _loginService.ObtenerUsuario(loginDto);
@@ -50,12 +61,12 @@ namespace Web.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Login");
         }
-   
+
         public async Task<ActionResult> CrearUsuario(CrearCuentaDto crearUsuarioDto)
         {
-             var responseCuenta = await _loginService.GuardarUsuario(crearUsuarioDto);
+            var responseCuenta = await _loginService.GuardarUsuario(crearUsuarioDto);
 
-            if (responseCuenta!= null && Convert.ToBoolean(responseCuenta.Value))
+            if (responseCuenta != null && Convert.ToBoolean(responseCuenta.Value))
             {
                 TempData["ErrorLogin"] = "Se creo el usuario correctamente";
             }
@@ -66,5 +77,12 @@ namespace Web.Controllers
 
             return RedirectToAction("index", "Login");
         }
+    
+        public async Task<ActionResult> EnviarMail(LoginDto loginDto)
+        {
+            _loginService.EnviarMail(loginDto);
+            return RedirectToAction("RecuperarCuenta", "Login");
+        }
+    
     }
 }

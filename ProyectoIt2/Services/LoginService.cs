@@ -48,5 +48,11 @@ namespace ProyectoIt2.Services
 
             return principalClaim;
         }
+    
+        public async void EnviarMail(LoginDto loginDto)
+        {
+
+        }
+    
     }
 }
