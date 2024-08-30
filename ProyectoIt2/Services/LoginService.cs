@@ -1,18 +1,26 @@
 ﻿using Common.Helpers;
 using Data.Base;
 using Data.Dtos;
+using Data.Manager;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
+using Web.Services;
 
 namespace ProyectoIt2.Services
 {
     public class LoginService
     {
         private readonly BaseApi _baseApi;
-        public LoginService(IHttpClientFactory httpClientFactory)
+        private readonly IConfiguration _configuration;
+        private readonly SmtpClient _smtpClient;
+        public LoginService(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _baseApi = new BaseApi(httpClientFactory);
+            _configuration = configuration;
+            _smtpClient = new SmtpClient();
         }
         public async Task<OkObjectResult> ObtenerUsuario(LoginDto loginDto)
         {
@@ -51,7 +59,46 @@ namespace ProyectoIt2.Services
     
         public async void EnviarMail(LoginDto loginDto)
         {
+            var recuperarCuenta = new RecuperarCuentaService();
+            var resultadoCuenta = false;
+            var guid = Guid.NewGuid();
+            var numeros = new String(guid.ToString().Where(Char.IsDigit).ToArray());
+            var seed = int.Parse(numeros.Substring(0, 6));
+            var random = new Random(seed);
+            var codigo = random.Next(000000,999999);
 
+            var usuario = await recuperarCuenta.BuscarUsuarios(loginDto);
+            if(usuario != null)
+            {
+                usuario.Codigo = codigo;
+                resultadoCuenta = recuperarCuenta.GuardarUsuarios(usuario);
+            }
+
+            if (resultadoCuenta)
+            {
+                var mail = new MailMessage();
+                mail.From = new MailAddress(_configuration["ConfiguracionMail:Usuario"]);
+                mail.To.Add(loginDto.Mail);
+                mail.Subject = ("Codigo de recuperacion Proyecto IT");
+                mail.Body = CuerpoMail(codigo);
+                mail.IsBodyHtml = true;
+                mail.Priority = MailPriority.Normal;
+
+                _smtpClient.Host = _configuration["ConfiguracionMail:DireccionServidor"];
+                _smtpClient.Port = int.Parse(_configuration["ConfiguracionMail:Puerto"]);
+                _smtpClient.EnableSsl = bool.Parse(_configuration["ConfiguracionMail:Ssl"]);
+                _smtpClient.UseDefaultCredentials = false;
+                _smtpClient.Credentials = new NetworkCredential(_configuration["ConfiguracionMail:Usuario"], _configuration["ConfiguracionMail:Clave"]);
+            
+                _smtpClient.Send(mail);
+            }
+        }
+
+        public static string CuerpoMail(int codigo)
+        {
+            var mensaje = "<strong>A continuacion se mostrara un codigo que debera ingresar en la web de Proyecto IT </strong>";
+            mensaje += $"<strong>{codigo}</strong>";
+            return mensaje;
         }
     
     }

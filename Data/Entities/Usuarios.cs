@@ -32,5 +32,20 @@ namespace Data.Entities
             usuario.Activo = crearCuentaDto.Activo;
             return usuario;
         }
+
+        public static implicit operator Usuarios(UsuariosDto usuariosDto)
+        {
+            var usuario = new Usuarios();
+            usuario.Id = usuariosDto.Id;
+            usuario.Nombre = usuariosDto.Nombre;
+            usuario.Apellido = usuariosDto.Apellido;
+            usuario.Fecha_Nacimiento = usuariosDto.Fecha_Nacimiento;
+            usuario.Mail = usuariosDto.Mail;
+            usuario.Clave = usuariosDto.Clave;
+            usuario.Id_Rol = usuariosDto.Id_Rol;
+            usuario.Codigo = usuariosDto.Codigo;
+            usuario.Activo = usuariosDto.Activo;
+            return usuario;
+        }
     }
 }

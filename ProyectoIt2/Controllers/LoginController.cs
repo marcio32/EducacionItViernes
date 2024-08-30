@@ -9,9 +9,9 @@ namespace Web.Controllers
     public class LoginController : Controller
     {
         private readonly LoginService _loginService;
-        public LoginController(IHttpClientFactory httpClientFactory)
+        public LoginController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
-            _loginService = new LoginService(httpClientFactory);
+            _loginService = new LoginService(httpClientFactory, configuration);
         }
         public IActionResult Index()
         {
