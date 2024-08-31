@@ -1,5 +1,6 @@
 using Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace ProyectoIt2
 {
@@ -30,6 +31,10 @@ namespace ProyectoIt2
                     context.Response.Redirect("https://localhost:44313");
                     return Task.CompletedTask;
                 };
+            }).AddGoogle(GoogleDefaults.AuthenticationScheme, option =>
+            {
+                option.ClientId = builder.Configuration["Authentications:Google:ClientId"];
+                option.ClientSecret = builder.Configuration["Authentications:Google:ClientSecret"];
             });
 
             var app = builder.Build();

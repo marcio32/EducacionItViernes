@@ -1,6 +1,7 @@
 ﻿using Common.Helpers;
 using Data.Base;
 using Data.Dtos;
+using Data.Entities;
 using Data.Manager;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -115,6 +116,15 @@ namespace ProyectoIt2.Services
             }
 
             return resultadoCuenta;
+        }
+
+        public async Task<Usuarios?> BuscarUsuario(string mail)
+        {
+            var loginDto = new LoginDto();
+            loginDto.Mail = mail;
+            var usuario = await _recuperarCuentaService.BuscarUsuarios(loginDto);
+
+            return usuario;
         }
     }
 }

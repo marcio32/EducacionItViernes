@@ -1,6 +1,7 @@
 ﻿using Data.Dtos;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoIt2.Services;
 
@@ -98,6 +99,33 @@ namespace Web.Controllers
             }
 
             return RedirectToAction("Index", "Login");
+        }
+
+        public async Task LoginGoogle()
+        {
+            await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties()
+            {
+                RedirectUri = Url.Action("GoogleResponse")
+            });
+        }
+
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var resultado = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var claims = resultado.Principal.Identities.FirstOrDefault().Claims.Select(claim => new { claim.Value });
+
+
+            var usuario = await _loginService.BuscarUsuario(claims.ToList()[4].Value);
+
+            if(usuario != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
     
     }
