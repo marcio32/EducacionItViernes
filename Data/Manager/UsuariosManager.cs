@@ -1,5 +1,8 @@
-﻿using Data.Base;
+﻿using Common.Helpers;
+using Data.Base;
+using Data.Dtos;
 using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +26,11 @@ namespace Data.Manager
         public override Task<List<Usuarios>> BuscarListaAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Usuarios> ValidarUsuario(LoginDto loginDto)
+        {
+            return await contextSingleton.Usuarios.Include(x => x.Roles).FirstOrDefaultAsync(x => x.Mail == loginDto.Mail && x.Clave == EncryptHelper.Encriptar(loginDto.Password));
         }
     }
 }

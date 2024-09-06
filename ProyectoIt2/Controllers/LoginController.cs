@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoIt2.Services;
+using ProyectoIt2.ViewModels;
 
 namespace Web.Controllers
 {
@@ -41,17 +42,20 @@ namespace Web.Controllers
 
         public async Task<ActionResult> LoginLocal(LoginDto loginDto)
         {
-            var resultadoUsuario = await _loginService.ObtenerUsuario(loginDto);
+            var token = await _loginService.ObtenerUsuario(loginDto);
 
-            if (resultadoUsuario != null)
+            if (token != null)
             {
-                var principalClaim = await _loginService.ClaimLogin(resultadoUsuario);
+                var homeViewModel = new HomeViewModel() {
+                    Token = token.Value.ToString()
+                };
+                var principalClaim = await _loginService.ClaimLogin(token);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principalClaim, new AuthenticationProperties
                 {
                     ExpiresUtc = DateTime.Now.AddMinutes(30)
                 });
 
-                return View("~/Views/Home/Index.cshtml");
+                return View("~/Views/Home/Index.cshtml", homeViewModel);
             }
 
             return RedirectToAction("Index", "Login");
@@ -124,6 +128,7 @@ namespace Web.Controllers
             }
             else
             {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 return RedirectToAction("Index", "Login");
             }
         }

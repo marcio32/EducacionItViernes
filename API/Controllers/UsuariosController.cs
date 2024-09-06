@@ -1,5 +1,6 @@
 ﻿using API.Services;
 using Data.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -15,6 +16,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [Route("CrearUsuario")]
         public async Task<bool> CrearUsuario(CrearCuentaDto crearCuentaDto)
         {

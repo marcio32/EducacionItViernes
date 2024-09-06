@@ -15,7 +15,7 @@ namespace Web.Services
             _usuarios = new Usuarios();
         }
 
-        public async Task<Usuarios> BuscarUsuarios(LoginDto loginDto)
+        public async Task<Usuarios> BuscarUsuariosByMail(LoginDto loginDto)
         {
             return _manager.BuscarListaAsync().Result.FirstOrDefault(x => x.Mail == loginDto.Mail);
         }

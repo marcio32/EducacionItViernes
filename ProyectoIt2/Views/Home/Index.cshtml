@@ -1,4 +1,12 @@
-﻿<div class="alert alert-primary" role="alert">
-    A simple primary alert—check it out!
+﻿@model ProyectoIt2.ViewModels.HomeViewModel;
+@{
+    ViewData["Title"] = "Bienvenidos";
+}
+
+@Html.HiddenFor(x=> x.Token)
+
+<div class="text-center">
+    <h1 class="display-4">Bienvenidos</h1>
 </div>
-<button type="button" class="btn btn-success">Success</button>
+
+<script src="~/js/Home/Home.js"></script>

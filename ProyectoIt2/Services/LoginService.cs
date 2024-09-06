@@ -5,6 +5,7 @@ using Data.Entities;
 using Data.Manager;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
@@ -27,7 +28,6 @@ namespace ProyectoIt2.Services
         }
         public async Task<OkObjectResult> ObtenerUsuario(LoginDto loginDto)
         {
-            loginDto.Password = EncryptHelper.Encriptar(loginDto.Password);
             var usuario = await _baseApi.PostToApi("Authenticate/Login", loginDto);
             var resultadoUsuario = usuario as OkObjectResult;
             return resultadoUsuario;
@@ -35,21 +35,21 @@ namespace ProyectoIt2.Services
 
         public async Task<OkObjectResult> GuardarUsuario(CrearCuentaDto crearUsuarioDto)
         {
-            crearUsuarioDto.Clave = EncryptHelper.Encriptar(crearUsuarioDto.Clave);
             var response = await _baseApi.PostToApi("Usuarios/CrearUsuario", crearUsuarioDto);
             var responseLogin = response as OkObjectResult;
 
             return responseLogin;
         }
 
-        public async Task<ClaimsPrincipal> ClaimLogin(OkObjectResult resultadoUsuario)
+        public async Task<ClaimsPrincipal> ClaimLogin(OkObjectResult token)
         {
 
+            var claimJwt = DecryptJwtHelper.DesencriptarJwtToken(token.Value.ToString());
             var principalClaim = new ClaimsPrincipal();
             var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
-            Claim claimNombre = new(ClaimTypes.Name, "Marcio");
-            Claim claimRole = new(ClaimTypes.Role, "Admin");
-            Claim claimEmail = new(ClaimTypes.Email, "marcioabriola@gmail.com");
+            Claim claimNombre = new(ClaimTypes.Name, claimJwt.ToList()[2].Value);
+            Claim claimRole = new(ClaimTypes.Role, claimJwt.ToList()[3].Value);
+            Claim claimEmail = new(ClaimTypes.Email, claimJwt.ToList()[0].Value);
 
             identity.AddClaim(claimNombre);
             identity.AddClaim(claimRole);
@@ -69,7 +69,7 @@ namespace ProyectoIt2.Services
             var random = new Random(seed);
             var codigo = random.Next(000000,999999);
 
-            var usuario = await _recuperarCuentaService.BuscarUsuarios(loginDto);
+            var usuario = await _recuperarCuentaService.BuscarUsuariosByMail(loginDto);
             if(usuario != null)
             {
                 usuario.Codigo = codigo;
@@ -107,7 +107,7 @@ namespace ProyectoIt2.Services
         {
             loginDto.Mail = mail;
             var resultadoCuenta = false;
-            var usuario = await _recuperarCuentaService.BuscarUsuarios(loginDto);
+            var usuario = await _recuperarCuentaService.BuscarUsuariosByMail(loginDto);
             if(usuario != null)
             {
                 usuario.Clave = EncryptHelper.Encriptar(loginDto.Password);
@@ -122,7 +122,7 @@ namespace ProyectoIt2.Services
         {
             var loginDto = new LoginDto();
             loginDto.Mail = mail;
-            var usuario = await _recuperarCuentaService.BuscarUsuarios(loginDto);
+            var usuario = await _recuperarCuentaService.BuscarUsuariosByMail(loginDto);
 
             return usuario;
         }
