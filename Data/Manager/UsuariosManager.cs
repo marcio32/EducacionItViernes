@@ -23,9 +23,9 @@ namespace Data.Manager
             throw new NotImplementedException();
         }
 
-        public override Task<List<Usuarios>> BuscarListaAsync()
+        public override async Task<List<Usuarios>> BuscarListaAsync()
         {
-            throw new NotImplementedException();
+            return await contextSingleton.Usuarios.Where(x=> x.Activo == true).Include(x => x.Roles).ToListAsync();
         }
 
         public async Task<Usuarios> ValidarUsuario(LoginDto loginDto)

@@ -12,7 +12,13 @@ namespace API
             var builder = WebApplication.CreateBuilder(args);
             ApplicationDbContext.ConnectionString = builder.Configuration.GetConnectionString("ApplicationDbContext");
             // Add services to the container.
-
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowAll", policy =>
+                {
+                    policy.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+                });
+            });
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -69,10 +75,11 @@ namespace API
             }
 
             app.UseHttpsRedirection();
-
+          
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCors("AllowAll");
 
             app.MapControllers();
 

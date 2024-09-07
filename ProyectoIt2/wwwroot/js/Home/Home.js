@@ -2,5 +2,6 @@
     debugger
     if ($("#Token").val() != "") {
         setCookie("Token", $("#Token").val())
+        $("#Token").remove();
     }
 })

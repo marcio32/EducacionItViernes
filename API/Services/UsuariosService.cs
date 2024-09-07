@@ -20,5 +20,10 @@ namespace API.Services
             _usuario = crearCuentaDto;
             return await _manager.Guardar(_usuario, _usuario.Id);
         }
+
+        public async Task<List<Usuarios>> BuscarUsuarios()
+        {
+            return await _manager.BuscarListaAsync();
+        }
     }
 }
