@@ -13,5 +13,10 @@ namespace Web.Controllers
         public IActionResult Index() { 
             return View();
         }
+
+        public async Task<IActionResult> UsuariosAddPartial()
+        {
+            return PartialView("~/Views/Usuarios/Partial/UsuariosAddPartial.cshtml");
+        }
     }
 }

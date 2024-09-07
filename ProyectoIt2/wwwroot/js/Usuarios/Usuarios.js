@@ -1,5 +1,5 @@
 ﻿let token = getCookie("Token");
-debugger
+
 let table = $("#usuarios").DataTable({
     ajax: {
         url: 'https://localhost:7205/api/Usuarios/BuscarUsuarios',
@@ -39,3 +39,19 @@ let table = $("#usuarios").DataTable({
         url: "../../lib/datatable/dist/js/idiomadatatablees.js"
     }
 });
+
+
+const GuardarUsuario = () => {
+    $.ajax({
+        type: "POST",
+        url: "/Usuarios/UsuariosAddPartial",
+        data: "",
+        contentType: "application/json",
+        dataType: "html",
+        success: function (resultado) {
+            debugger
+            $("#usuariosAddPartial").html(resultado);
+            $("#usuarioModal").modal('show');
+        }
+    });
+}
