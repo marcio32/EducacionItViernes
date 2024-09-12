@@ -32,7 +32,7 @@ namespace Data.Entities
             usuario.Apellido = crearCuentaDto.Apellido;
             usuario.Fecha_Nacimiento = crearCuentaDto.Fecha_Nacimiento;    
             usuario.Mail = crearCuentaDto.Mail;
-            usuario.Clave = EncryptHelper.Encriptar(crearCuentaDto.Clave); 
+            usuario.Clave = crearCuentaDto.Clave; 
             usuario.Id_Rol = crearCuentaDto.Id_Rol;
             usuario.Activo = crearCuentaDto.Activo;
             return usuario;

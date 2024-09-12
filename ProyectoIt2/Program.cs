@@ -37,6 +37,8 @@ namespace ProyectoIt2
                 option.ClientSecret = builder.Configuration["Authentications:Google:ClientSecret"];
             });
 
+            builder.Services.AddSession();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -54,6 +56,8 @@ namespace ProyectoIt2
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.MapControllerRoute(
                 name: "default",

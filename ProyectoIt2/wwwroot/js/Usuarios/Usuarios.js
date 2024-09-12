@@ -55,3 +55,49 @@ const GuardarUsuario = () => {
         }
     });
 }
+
+const EditarUsuario = (row) => {
+    $.ajax({
+        type: "POST",
+        url: "/Usuarios/UsuariosAddPartial",
+        data: JSON.stringify(row),
+        contentType: "application/json",
+        dataType: "html",
+        success: function (resultado) {
+            $("#usuariosAddPartial").html(resultado);
+            $("#usuarioModal").modal('show');
+        }
+    })
+}
+
+const EliminarUsuario = (row) => {
+    Swal.fire({
+        title: "Estas seguro?",
+        text: "Vas a eliminar al usuario!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Eliminar!",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+
+            $.ajax({
+                type: "POST",
+                url: "/Usuarios/EliminarUsuario",
+                data: JSON.stringify(row),
+                contentType: "application/json",
+                dataType: "html",
+                success: function () {
+                    Swal.fire({
+                        title: "Eliminado!",
+                        text: "Se elimino el usuario.",
+                        icon: "success"
+                    });
+                    table.ajax.reload();
+                }
+            });
+        }
+    });
+}

@@ -11,11 +11,12 @@ namespace Data.Base
     {
         private static ApplicationDbContext contextInstance = null;
 
-        public static ApplicationDbContext contextSingleton { 
-            
+        public static ApplicationDbContext contextSingleton
+        {
+
             get
             {
-                if(contextInstance == null)
+                if (contextInstance == null)
                 {
                     contextInstance = new ApplicationDbContext();
                 }
@@ -30,7 +31,8 @@ namespace Data.Base
 
         public async Task<bool> Guardar(T entity, int id)
         {
-            if(id == 0)
+
+            if (id == 0)
             {
                 contextSingleton.Entry(entity).State = EntityState.Added;
             }
@@ -42,7 +44,7 @@ namespace Data.Base
             var resultado = await contextSingleton.SaveChangesAsync() > 0;
 
             contextSingleton.Entry(entity).State = EntityState.Detached;
-            return resultado;   
+            return resultado;
         }
     }
 }

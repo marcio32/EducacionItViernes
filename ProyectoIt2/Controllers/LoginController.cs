@@ -55,6 +55,8 @@ namespace Web.Controllers
                     ExpiresUtc = DateTime.Now.AddMinutes(30)
                 });
 
+                HttpContext.Session.SetString("Token", token.Value.ToString());
+
                 return View("~/Views/Home/Index.cshtml", homeViewModel);
             }
 
@@ -69,7 +71,7 @@ namespace Web.Controllers
 
         public async Task<ActionResult> CrearUsuario(CrearCuentaDto crearUsuarioDto)
         {
-            var responseCuenta = await _loginService.GuardarUsuario(crearUsuarioDto);
+            var responseCuenta = await _loginService.GuardarUsuario(crearUsuarioDto, HttpContext.Session.GetString("Token"));
 
             if (responseCuenta != null && Convert.ToBoolean(responseCuenta.Value))
             {

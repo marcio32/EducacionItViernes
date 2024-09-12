@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
 
 namespace Data.Base
 {
@@ -17,9 +19,14 @@ namespace Data.Base
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IActionResult> PostToApi(string metodoController, object model)
+        public async Task<IActionResult> PostToApi(string metodoController, object model, string token)
         {
             var client = _httpClientFactory.CreateClient("UseApi");
+
+            if (token != "")
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            }
 
             var response = await client.PostAsJsonAsync(metodoController, model);
 
@@ -32,9 +39,15 @@ namespace Data.Base
             return BadRequest(response);
         }
 
-        public async Task<IActionResult> GetToApi(string metodoController)
+        public async Task<IActionResult> GetToApi(string metodoController, string token = "")
         {
             var client = _httpClientFactory.CreateClient("UseApi");
+
+            if(token != "")
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+            }
+
             var response = await client.GetAsync(metodoController);
 
             if (response.IsSuccessStatusCode)

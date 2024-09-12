@@ -5,6 +5,7 @@ using Data.Entities;
 using Data.Manager;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
@@ -28,14 +29,14 @@ namespace ProyectoIt2.Services
         }
         public async Task<OkObjectResult> ObtenerUsuario(LoginDto loginDto)
         {
-            var usuario = await _baseApi.PostToApi("Authenticate/Login", loginDto);
+            var usuario = await _baseApi.PostToApi("Authenticate/Login", loginDto, "");
             var resultadoUsuario = usuario as OkObjectResult;
             return resultadoUsuario;
         }
 
-        public async Task<OkObjectResult> GuardarUsuario(CrearCuentaDto crearUsuarioDto)
+        public async Task<OkObjectResult> GuardarUsuario(CrearCuentaDto crearUsuarioDto, string token)
         {
-            var response = await _baseApi.PostToApi("Usuarios/CrearUsuario", crearUsuarioDto);
+            var response = await _baseApi.PostToApi("Usuarios/CrearUsuario", crearUsuarioDto, token);
             var responseLogin = response as OkObjectResult;
 
             return responseLogin;

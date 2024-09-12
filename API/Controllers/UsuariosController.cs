@@ -20,13 +20,13 @@ namespace API.Controllers
         [HttpPost]
         [Route("CrearUsuario")]
         public async Task<bool> CrearUsuario(CrearCuentaDto crearCuentaDto)
-        {
+         {
             return await _service.GuardarUsuario(crearCuentaDto);
         }
 
         [HttpGet]
         [Route("BuscarUsuarios")]
-        public async Task<List<Usuarios>> BuscarUsuarios()
+        public async Task<List<Usuarios>> BuscarUsuarios() 
         {
             return await _service.BuscarUsuarios();
         }
