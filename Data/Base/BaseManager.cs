@@ -31,20 +31,28 @@ namespace Data.Base
 
         public async Task<bool> Guardar(T entity, int id)
         {
-
-            if (id == 0)
+            try
             {
-                contextSingleton.Entry(entity).State = EntityState.Added;
-            }
-            else
-            {
-                contextSingleton.Entry(entity).State = EntityState.Modified;
-            }
+                if (id == 0)
+                {
+                    contextSingleton.Entry(entity).State = EntityState.Added;
+                }
+                else
+                {
+                    contextSingleton.Entry(entity).State = EntityState.Modified;
+                }
 
-            var resultado = await contextSingleton.SaveChangesAsync() > 0;
+                var resultado = await contextSingleton.SaveChangesAsync() > 0;
 
-            contextSingleton.Entry(entity).State = EntityState.Detached;
-            return resultado;
+                contextSingleton.Entry(entity).State = EntityState.Detached;
+
+                return resultado;
+            }
+            catch (Exception ex) {
+                return false;
+            }
+           
+            
         }
     }
 }

@@ -1,6 +1,7 @@
 using Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using ProyectoIt2.Middlewares;
 
 namespace ProyectoIt2
 {
@@ -62,6 +63,8 @@ namespace ProyectoIt2
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Login}/{action=Index}");
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.Run();
         }

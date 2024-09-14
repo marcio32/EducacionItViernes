@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using ProyectoIt2.Middlewares;
 namespace API
 {
     public class Program
@@ -82,6 +83,8 @@ namespace API
             app.UseCors("AllowAll");
 
             app.MapControllers();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.Run();
         }
