@@ -1,9 +1,10 @@
 ﻿using Data.Entities;
 using Data.Manager;
+using API.Interfaces;
 
 namespace API.Services
 {
-    public class ProductosService
+    public class ProductosService : IProductosService
     {
         private readonly ProductosManager _productosManager;
 

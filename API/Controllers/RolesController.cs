@@ -17,6 +17,12 @@ namespace API.Controllers
             _service = new RolesService();
         }
 
+        [HttpPost]
+        [Route("GuardarRol")]
+        public async Task<bool> GuardarRol (Roles rol)
+        {
+            return await _service.GuardarRol(rol);
+        }
 
         [HttpGet]
         [Route("BuscarRoles")]

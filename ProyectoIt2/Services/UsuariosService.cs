@@ -4,11 +4,12 @@ using Data.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using Web.Interfaces;
 using Web.ViewModels;
 
 namespace Web.Services
 {
-    public class UsuariosService
+    public class UsuariosService : IUsuariosService
     {
 
         private readonly BaseApi _baseApi;

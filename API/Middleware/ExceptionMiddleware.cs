@@ -1,4 +1,6 @@
-﻿namespace ProyectoIt2.Middlewares
+﻿using Common.Helpers;
+
+namespace ProyectoIt2.Middlewares
 {
     public class ExceptionMiddleware
     {
@@ -18,7 +20,7 @@
             }
             catch (Exception ex)
             {
-
+                await GenerateLogHelper.LogError(ex);
             }
         }
     }

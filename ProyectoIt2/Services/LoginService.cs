@@ -11,10 +11,11 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
 using Web.Services;
+using Web.Interfaces;
 
 namespace ProyectoIt2.Services
 {
-    public class LoginService
+    public class LoginService : ILoginService
     {
         private readonly BaseApi _baseApi;
         private readonly IConfiguration _configuration;

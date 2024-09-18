@@ -2,15 +2,16 @@
 using Data.Dtos;
 using Data.Entities;
 using Data.Manager;
+using API.Interfaces;
 
 namespace API.Services
 {
-    public class UsuariosService
+    public class UsuariosService : IUsuariosService
     {
         private readonly UsuariosManager _manager;
         private Usuarios _usuario;
 
-        public UsuariosService()
+        public UsuariosService() 
         {
             _manager = new UsuariosManager();
             _usuario = new Usuarios();

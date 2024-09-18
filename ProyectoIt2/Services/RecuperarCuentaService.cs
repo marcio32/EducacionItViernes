@@ -1,10 +1,11 @@
 ﻿using Data.Dtos;
 using Data.Entities;
 using Data.Manager;
+using Web.Interfaces;
 
 namespace Web.Services
 {
-    public class RecuperarCuentaService
+    public class RecuperarCuentaService : IRecuperarCuentaService
     {
         private readonly RecuperarCuentaManager _manager;
         private Usuarios _usuarios;

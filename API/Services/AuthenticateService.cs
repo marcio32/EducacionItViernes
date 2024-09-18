@@ -1,4 +1,5 @@
-﻿using Common.Helpers;
+﻿using API.Interfaces;
+using Common.Helpers;
 using Data;
 using Data.Dtos;
 using Data.Entities;
@@ -11,7 +12,7 @@ using System.Text;
 
 namespace API.Services
 {
-    public class AuthenticateService
+    public class AuthenticateService : IAuthenticateService
     {
         private readonly IConfiguration _configuration;
         private readonly UsuariosManager _usuariosManager;
