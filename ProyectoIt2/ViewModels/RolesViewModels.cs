@@ -5,21 +5,21 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web.ViewModels
 {
-    public class RolesViewModels
+    public class ServiciosViewModels
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
         public bool Activo { get; set; }
         
 
-        public static implicit operator RolesViewModels(RolesDto rolDto)
+        public static implicit operator ServiciosViewModels(ServiciosDto servicioDto)
         {
-            var rolViewModel = new RolesViewModels();
-            rolViewModel.Id = rolDto.Id;
-            rolViewModel.Nombre = rolDto.Nombre;
-            rolViewModel.Activo = rolDto.Activo;
+            var servicioViewModel = new ServiciosViewModels();
+            servicioViewModel.Id = servicioDto.Id;
+            servicioViewModel.Nombre = servicioDto.Nombre;
+            servicioViewModel.Activo = servicioDto.Activo;
 
-            return rolViewModel;
+            return servicioViewModel;
         }
     }
 }

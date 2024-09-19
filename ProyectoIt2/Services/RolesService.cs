@@ -9,25 +9,25 @@ using Web.ViewModels;
 
 namespace Web.Services
 {
-    public class RolesService : IRolesService
+    public class ServiciosService : IServiciosService
     {
 
         private readonly BaseApi _baseApi;
 
-        public RolesService(IHttpClientFactory httpClientFactory)
+        public ServiciosService(IHttpClientFactory httpClientFactory)
         {
             _baseApi = new BaseApi(httpClientFactory);
         }
 
-        public async void GuardarRol(RolesDto rolDto, string token)
+        public async void GuardarServicio(ServiciosDto servicioDto, string token)
         {
-            await _baseApi.PostToApi("Roles/GuardarRol", rolDto, token);
+            await _baseApi.PostToApi("Servicios/GuardarServicio", servicioDto, token);
         }
 
-        public async void EliminarRol(RolesDto rolDto, string token)
+        public async void EliminarServicio(ServiciosDto servicioDto, string token)
         {
-            rolDto.Activo = false;
-            await _baseApi.PostToApi("Roles/GuardarRol", rolDto, token);
+            servicioDto.Activo = false;
+            await _baseApi.PostToApi("Servicios/GuardarServicio", servicioDto, token);
         }
 
     }

@@ -3,9 +3,9 @@ using Data.Dtos;
 
 namespace Web.Interfaces
 {
-    public interface IRolesService
+    public interface IServiciosService
     {
-        public void GuardarRol(RolesDto rolDto, string token);
-        public void EliminarRol(RolesDto rolDto, string token);
+        public void GuardarServicio(ServiciosDto servicioDto, string token);
+        public void EliminarServicio(ServiciosDto servicioDto, string token);
     }
 }

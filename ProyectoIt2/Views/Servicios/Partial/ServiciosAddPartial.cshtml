@@ -1,0 +1,34 @@
+﻿@model Web.ViewModels.ServiciosViewModels;
+
+<div class="modal fade" id="servicioModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alta y/o modificacion de servicios.</h5>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("GuardarServicio", "/Servicios", FormMethod.Post))
+                {
+
+                    @Html.HiddenFor(x => x.Id)
+
+                    <div class="row">
+                        <div class="col-md-6 mt-1 mb-3">
+                            <label class="col-md-6 form-control-label">Nombre</label>
+                            @Html.EditorFor(x => x.Nombre, new { htmlAttributes = new { @Class = "col-md-9 form-control", @required = "required" } })
+                        </div>
+                        <div class="col-md-6 mt-1 mb-3">
+                            <label class="col-md-6 form-control-label">Activo</label>
+                            @Html.CheckBoxFor(x => x.Activo, new { htmlAttributes = new { @Class = "col-md-9 form-control", @required = "required" } })
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success" id="btnGuardar">Guardar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

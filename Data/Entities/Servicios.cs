@@ -1,7 +1,7 @@
 ﻿
-namespace Data.Dtos
+namespace Data.Entities
 {
-    public class ServiciosDto
+     public class Servicios
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
