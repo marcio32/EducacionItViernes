@@ -2,6 +2,7 @@ using Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using ProyectoIt2.Middlewares;
+using Web;
 
 namespace ProyectoIt2
 {
@@ -18,6 +19,8 @@ namespace ProyectoIt2
             {
                 config.BaseAddress = new Uri(builder.Configuration["Url:Api"]);
             });
+
+            builder.Services.AddSignalR();
 
             builder.Services.AddAuthentication(option =>
             {
@@ -36,6 +39,19 @@ namespace ProyectoIt2
             {
                 option.ClientId = builder.Configuration["Authentications:Google:ClientId"];
                 option.ClientSecret = builder.Configuration["Authentications:Google:ClientSecret"];
+            });
+
+            builder.Services.AddAuthorization(option =>
+            {
+                option.AddPolicy("ADMINISTRADORES", policy =>
+                {
+                    policy.RequireRole("Administrador");
+                });
+
+                option.AddPolicy("USUARIOS", policy =>
+                {
+                    policy.RequireRole("Usuario");
+                });
             });
 
             builder.Services.AddSession();
@@ -63,6 +79,8 @@ namespace ProyectoIt2
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Login}/{action=Index}");
+
+            app.MapHub<ChatHub>("/Chat");
 
             app.UseMiddleware<ExceptionMiddleware>();
 

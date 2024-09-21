@@ -11,8 +11,10 @@ namespace Web.Controllers
     public class LoginController : Controller
     {
         private readonly LoginService _loginService;
+        private readonly IConfiguration _configuration;
         public LoginController(IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
+            _configuration = configuration;
             _loginService = new LoginService(httpClientFactory, configuration);
         }
         public IActionResult Index()
@@ -47,8 +49,9 @@ namespace Web.Controllers
             if (token != null)
             {
                 var homeViewModel = new HomeViewModel() {
-                    Token = token.Value.ToString()
-                };
+                    Token = token.Value.ToString(),
+                    WebUrl = _configuration["Url:Web"]
+                }; 
                 var principalClaim = await _loginService.ClaimLogin(token);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principalClaim, new AuthenticationProperties
                 {

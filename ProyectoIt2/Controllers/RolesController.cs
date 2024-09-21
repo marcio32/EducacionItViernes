@@ -1,10 +1,12 @@
 ﻿using Data.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Services;
 using Web.ViewModels;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class RolesController : Controller
     {
         private readonly RolesService _rolesService;

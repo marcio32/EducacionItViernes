@@ -1,9 +1,11 @@
 ﻿using Data.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Services;
 
 namespace Web.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class UsuariosController : Controller
     {
         private readonly UsuariosService _usuariosService;
@@ -11,6 +13,8 @@ namespace Web.Controllers
         {
             _usuariosService = new UsuariosService(httpClientFactory);
         }
+
+      
         public IActionResult Index() { 
             return View();
         }

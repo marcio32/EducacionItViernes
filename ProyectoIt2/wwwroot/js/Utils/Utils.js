@@ -6,6 +6,7 @@
 }
 
 const getCookie = (nombre) => {
+    debugger
     var nombreEQ = nombre + "=";
     var cookies = document.cookie.split(";");
     for (var i = 0; i < cookies.length; i++) {
