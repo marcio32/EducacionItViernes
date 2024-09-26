@@ -2,8 +2,7 @@
     var conexion = new signalR.HubConnectionBuilder().withUrl("/Chat").build();
     conexion.start().then(() => { conexion.invoke("AgregarGrupo", "1") });
 
-
-    $("#btnEnviar").click(function () {
+    $("#btnEnviar").click(function (e) {
         conexion.invoke("EnviarMensaje", 1, $("#usuario").val(), $("#mensaje").val());
         $("#mensaje").val("");
         $("#mensaje").focus();
@@ -17,4 +16,4 @@
         li.append(mensaje);
         $("#mensajes").append(li);
     })
-})
+});
