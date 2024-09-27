@@ -1,0 +1,52 @@
+﻿@model Web.ViewModels.ProductosViewModels;
+
+<div class="modal fade" id="productoModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Alta y/o modificacion de productos.</h5>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("GuardarProducto", "/Productos", FormMethod.Post, new {enctype = "multipart/form-data" }))
+                {
+
+                    @Html.HiddenFor(x => x.Id)
+
+                    <div class="row">
+                        <div class="col-md-6 mt-1 mb-3">
+                            <label class="col-md-6 form-control-label">Imagen</label>
+                            @Html.EditorFor(x => x.Imagen_Archivo, new { htmlAttributes = new { @Class = "col-md-9 form-control" } })
+                        </div>
+                        <div class="col-md-6 mt-1 mb-3">
+                            <label class="col-md-6 form-control-label">Descripcion</label>
+                            @Html.EditorFor(x => x.Descripcion, new { htmlAttributes = new { @Class = "col-md-9 form-control", @required = "required" } })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mt-1 mb-3">
+                            <label class="col-md-6 form-control-label">Stock</label>
+                            @Html.EditorFor(x => x.Stock, new { htmlAttributes = new { @Class = "col-md-9 form-control", @required = "required" } })
+                        </div>
+                        <div class="col-md-6 mt-1 mb-3">
+                            <label class="col-md-6 form-control-label">Precio</label>
+                            @Html.EditorFor(x => x.Precio, new { htmlAttributes = new { @Class = "col-md-9 form-control", @required = "required" } })
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mt-1 mb-3">
+                            <label class="col-md-6 form-control-label">Activo</label>
+                            @Html.CheckBoxFor(x => x.Activo, new { htmlAttributes = new { @Class = "col-md-9 form-control", @required = "required" } })
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-success" id="btnGuardar">Guardar</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
